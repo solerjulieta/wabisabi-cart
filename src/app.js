@@ -1,5 +1,6 @@
 import express from 'express'
 import handlebars from 'express-handlebars'
+import multer from 'multer'
 
 const app = express()
 
