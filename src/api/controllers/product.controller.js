@@ -39,7 +39,6 @@ export const getProducts = async (req, res) =>
         //Links de prev y next
         const baseUrl = '/api/products'
         const buildLink = (p) => `${baseUrl}?page="${p}&limit=${parsedLimit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
-        const query = Product.find()
         
         res.json({ 
             status: 'success',
@@ -65,6 +64,23 @@ export const createProducts = async (req, res) =>
         const newProduct = await Product.create(product)
 
         res.status(201).json({ status: 'success', payload: newProduct })
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message })
+    }
+}
+
+export const getProductById = async (req, res) => 
+{
+    try{
+        const { id } = req.params
+
+        const product = await Product.findById(id)
+
+        if(!product){
+            return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
+        }
+
+        res.status(200).json({ status: 'success', message: product })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
     }

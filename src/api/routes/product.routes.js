@@ -1,13 +1,14 @@
 import { Router } from 'express'
 import {
     getProducts,
-    createProducts
+    createProducts,
+    getProductById
 } from '../controllers/product.controller.js'
 
 const router = Router()
 
 router.get('/', getProducts)
-//router.get('/:id')
+router.get('/:id', getProductById)
 router.post('/', createProducts)
 //router.put('/:id')
 //router.delete('/:id')
