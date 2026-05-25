@@ -1,6 +1,7 @@
 import Product from '../../models/product.model.js'
 
-export const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => 
+{
     try{
         const { limit } = req.query //capturamos el límite
 
@@ -15,5 +16,17 @@ export const getProducts = async (req, res) => {
         res.json({ status: 'success', payload: products })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
+    }
+}
+
+export const createProducts = async (req, res) => 
+{
+    try{
+        const product = req.body
+        const newProduct = Product.create(product)
+
+        res.json({ status: 'success' })
+    } catch (error) {
+        res.status().json({ status: 'error', message: error.message })
     }
 }
