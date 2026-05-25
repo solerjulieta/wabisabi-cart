@@ -23,10 +23,10 @@ export const createProducts = async (req, res) =>
 {
     try{
         const product = req.body
-        const newProduct = Product.create(product)
+        const newProduct = await Product.create(product)
 
-        res.json({ status: 'success' })
+        res.status(201).json({ status: 'success', payload: newProduct })
     } catch (error) {
-        res.status().json({ status: 'error', message: error.message })
+        res.status(500).json({ status: 'error', message: error.message })
     }
 }
