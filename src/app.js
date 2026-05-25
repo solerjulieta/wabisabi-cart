@@ -4,6 +4,7 @@ import handlebars from 'express-handlebars'
 import multer from 'multer'
 import http from 'http'
 import { Server } from 'socket.io'
+import connectDB from './config/db.js'
 
 dotenv.config()
 
@@ -14,6 +15,8 @@ const io = new Server(server, {
         origin: '*'
     }
 })
+
+connectDB()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
