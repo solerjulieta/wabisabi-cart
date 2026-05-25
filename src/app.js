@@ -5,6 +5,7 @@ import multer from 'multer'
 import http from 'http'
 import { Server } from 'socket.io'
 import connectDB from './config/db.js'
+import router from './api/routes/routes.index.js'
 
 dotenv.config()
 
@@ -21,6 +22,7 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'))
+app.use('/api', router)
 
 app.engine('handlebars', handlebars.engine())
 app.set('view-engine', 'handlebars')
