@@ -1,23 +1,58 @@
+import { parse } from 'dotenv'
 import Product from '../../models/product.model.js'
 
 export const getProducts = async (req, res) => 
 {
     try{
-        const { limit } = req.query //capturamos el límite
+        const { limit = 10, page = 1, query, sort } = req.query //capturamos el límite
 
-        if(limit && (isNaN(parseInt(limit)) || limit <= 0)){
-            return res.status(400).json({ status: 'error', message: 'El límite debe ser un número mayor a 0.' })
+        //Validamos limit y page
+        const parsedLimit = parseInt(limit)
+        const parsedPage = parseInt(page)
+
+        if(isNaN(parsedLimit) || parsedLimit <= 0){
+            return res.status(400).json({ status: 'error', message: 'limit debe ser un número mayor a 0.' })
+        }
+        if(isNaN(parsedPage) || parsedPage <= 0){
+            return res.status(400).json({ status: 'error', message: 'page debe ser un número mayor a 0.' })
         }
 
+        const filter = {}
+        if(query){
+            if(query === 'true' || query === 'false'){
+                filter.status = query === 'true'
+            } else {
+                filter.category = { $regex: query, $options: 'i' }
+            }
+        }
+
+        //Ordena por precio
+        const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
+
+        //Paginación
+        const result = await Product.paginate(filter, {
+            limit: parsedLimit,
+            page: parsedPage,
+            sort: sortOption
+        })
+
+        //Links de prev y next
+        const baseUrl = '/api/products'
+        const buildLink = (p) => `${baseUrl}?page="${p}&limit=${parsedLimit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
         const query = Product.find()
-
-        if(limit){
-            query.limit(parseInt(limit))
-        }
-
-        const products = await query
         
-        res.json({ status: 'success', payload: products })
+        res.json({ 
+            status: 'success',
+            payload: result.docs,
+            totalPages: result.totalPages,
+            page: result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            prevLink: result.hasPrevPage ? buildLink(result.prevPage) : null,
+            nextLink: result.hasNextPage ? buildLink(result.nextPage) : null 
+        })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
     }
