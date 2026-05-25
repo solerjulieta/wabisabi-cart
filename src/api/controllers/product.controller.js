@@ -80,7 +80,7 @@ export const getProductById = async (req, res) =>
             return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
         }
 
-        res.status(200).json({ status: 'success', message: product })
+        res.status(200).json({ status: 'success', payload: product })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
     }
