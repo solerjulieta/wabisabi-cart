@@ -5,6 +5,10 @@ export const getProducts = async (req, res) =>
     try{
         const { limit } = req.query //capturamos el límite
 
+        if(limit && (isNaN(parseInt(limit)) || limit <= 0)){
+            return res.status(400).json({ status: 'error', message: 'El límite debe ser un número mayor a 0.' })
+        }
+
         const query = Product.find()
 
         if(limit){
