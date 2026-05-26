@@ -107,3 +107,20 @@ export const updateProduct = async (req, res) =>
         res.status(500).json({ status: 'error', message: error.message })
     }
 }
+
+export const deleteProduct = async (req, res) => 
+{
+    try{
+        const { id } = req.params 
+
+        const deletedProduct = Product.findOneAndDelete(id)
+
+        if(!deletedProduct){
+            return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
+        }
+
+        res.status(200).json({ status: 'success', message: `Producto "${deletedProduct.title}" eliminado correctamente.` })
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message })
+    }
+}
