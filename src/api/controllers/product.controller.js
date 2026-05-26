@@ -112,8 +112,7 @@ export const deleteProduct = async (req, res) =>
 {
     try{
         const { id } = req.params 
-
-        const deletedProduct = Product.findOneAndDelete(id)
+        const deletedProduct = await Product.findOneAndDelete(id)
 
         if(!deletedProduct){
             return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
