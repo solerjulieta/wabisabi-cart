@@ -57,7 +57,7 @@ export const getProducts = async (req, res) =>
     }
 }
 
-export const createProducts = async (req, res) => 
+export const createProduct = async (req, res) => 
 {
     try{
         const product = req.body
@@ -80,6 +80,23 @@ export const getProductById = async (req, res) =>
             return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
         }
 
+        res.status(200).json({ status: 'success', payload: product })
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message })
+    }
+}
+
+export const updateProduct = async (req, res) => 
+{
+    try{
+        const { id } = req.params
+        const product = await Product.findById(id)
+
+        if(!product){
+            return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
+        } 
+
+        const updatedProduct = await Product.updateOne(id)
         res.status(200).json({ status: 'success', payload: product })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
