@@ -90,14 +90,19 @@ export const updateProduct = async (req, res) =>
 {
     try{
         const { id } = req.params
-        const product = await Product.findById(id)
+        delete req.body._id
 
-        if(!product){
-            return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            req.body,
+            { new: true }
+        )
+
+        if(!updatedProduct){
+            return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
         } 
 
-        const updatedProduct = await Product.updateOne(id)
-        res.status(200).json({ status: 'success', payload: product })
+        res.status(200).json({ status: 'success', payload: updatedProduct })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
     }
