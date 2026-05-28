@@ -78,3 +78,22 @@ export const deleteProduct = async (req, res) =>
         res.status(500).json({ status: 'error', message: error.message })
     }
 }
+
+export const updateCart = async (req, res) => 
+{
+    try {
+        const cart = req.cart
+        const { products } = req.body
+
+        if(!products || !Array.isArray(products)){
+            return res.status(400).json({ status: 'error', message: 'Debe enviar un array de productos.' })
+        }
+
+        cart.products = products
+        await cart.save()
+
+        res.status(200).json({ status: 'success', payload: cart })
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message })
+    }
+}
