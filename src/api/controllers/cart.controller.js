@@ -97,3 +97,46 @@ export const updateCart = async (req, res) =>
         res.status(500).json({ status: 'error', message: error.message })
     }
 }
+
+export const updateProductQuantity = async (req, res) => 
+{
+    try {
+        const { pid } = req.params
+        const { quantity } = req.body
+        const cart = req.cart
+
+        if(!quantity || isNaN(quantity) || quantity <= 0){
+            return res.status(400).json({ status: 'error', message: 'La cantidad debe ser un número mayor a 0.' })
+        }
+
+        const productIndex = cart.products.findIndex(
+            (item) => item.product.toString() === pid
+        )
+
+        if(productIndex === -1){
+            return res.status(404).json({ status: 'error', message: 'El producto no está en el carrito.' })
+        }
+
+        cart.products[productIndex].quantity = quantity
+        await cart.save()
+
+        res.status(200).json({ status: 'success', payload: cart })
+
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message })
+    }
+}
+
+export const clearCart = async (req, res) => 
+{
+    try {
+        const cart = req.cart
+
+        cart.products = []
+        await cart.save 
+
+        res.status(200).json({ status: 'success', message: 'Carrito vaciado correctamente.' })
+    } catch (error) {
+        res.status(500).json({ status: 'success', message: error.message })
+    }
+}
