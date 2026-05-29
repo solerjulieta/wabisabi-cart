@@ -1,0 +1,47 @@
+<nav class="bg-[#F5F2ED] text-[#1E1C1A] p-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center relative">
+    
+    <a href="/" class="text-xl font-bold tracking-wide transition-colors">
+      Wabi-sabi
+    </a>
+
+    <div class="flex items-center space-x-4 md:space-x-8">
+      
+      <a href="/carrito" class="relative hover:text-violet-400 transition-colors p-2 flex items-center" aria-label="Ver carrito">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+        </svg>
+
+        
+        {{#if cantidadCarrito}}
+          <span class="absolute top-0 right-0 bg-violet-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-[#1a1a1a]">
+            {{cantidadCarrito}}
+          </span>
+        {{/if}}
+      </a>
+
+      <button id="menu-btn" class="block md:hidden text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Abrir menú">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <div id="menu" class="hidden md:flex flex-col md:flex-row absolute md:relative top-full left-0 w-full md:w-auto bg-[#1a1a1a] md:bg-transparent p-4 md:p-0 space-y-4 md:space-y-0 md:space-x-6 text-center md:text-left shadow-lg md:shadow-none border-t border-gray-800 md:border-none">
+        <a href="/productos" class="hover:text-violet-400 transition-colors py-2 md:py-0 font-medium">Productos</a>
+        <a href="/categorias" class="hover:text-violet-400 transition-colors py-2 md:py-0 font-medium">Categorías</a>
+        <a href="/contacto" class="hover:text-violet-400 transition-colors py-2 md:py-0 font-medium">Contacto</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', () => {
+    // Al alternar la clase 'hidden', Tailwind oculta o muestra el bloque
+    menu.classList.toggle('hidden');
+  });
+</script>

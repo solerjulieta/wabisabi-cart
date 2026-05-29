@@ -39,11 +39,11 @@ app.set('views', join(__dirname, 'views'))
 app.use('/api', router)
 
 app.get('/', (req, res) => {
-    res.render('home')
+  res.render('home')
 })
 
 const port = process.env.PORT
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Servidor iniciado http://localhost:${port}`)
 })
