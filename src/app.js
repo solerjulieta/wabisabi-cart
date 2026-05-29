@@ -22,11 +22,20 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('./public'))
+
+app.engine('handlebars', handlebars.engine({
+    layoutsDir: `${process.cwd()}/src/views/layouts`,
+    partialsDir: `${process.cwd()}/src/views/partials`,
+    defaultLayout: 'main'
+}))
+app.set('view engine', 'handlebars')
+app.set('views', `${process.cwd()}/src/views`)
+
 app.use('/api', router)
 
-app.engine('handlebars', handlebars.engine())
-app.set('view-engine', 'handlebars')
-app.set('views', `${process.cwd()}/src/views`)
+app.get('/', (req, res) => {
+    res.render('home')
+})
 
 const port = process.env.PORT
 
