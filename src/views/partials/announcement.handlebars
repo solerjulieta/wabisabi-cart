@@ -1,0 +1,28 @@
+<div id="announcement-bar" class="bg-[#1E1C1A] text-[#F5F2ED] text-center py-2">
+    <span id="announcement-text"></span>
+</div>
+
+<script>
+    const announcementMessages = [
+        "• envío a todo el país •",
+        "• piezas únicas artesanales •",
+        "• hecho con intención •",
+        "• cada pieza tiene historia •",
+        "• sin sobreproducción •"
+    ]
+
+    let currentAnnouncement = 0;
+    const announcementEl = document.getElementById('announcement-text');
+    announcementEl.textContent = announcementMessages[0];
+
+    setInterval(() => {
+        announcementEl.style.transition = 'opacity 0.4s ease';
+        announcementEl.style.opacity = '0';
+
+        setTimeout(() => {
+            currentAnnouncement = (currentAnnouncement + 1) % announcementMessages.length;
+            announcementEl.textContent = announcementMessages[currentAnnouncement];
+            announcementEl.style.opacity = '1';
+        }, 400);
+    }, 3000);
+</script>
