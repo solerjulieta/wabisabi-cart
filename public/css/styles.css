@@ -1,0 +1,19 @@
+body{
+    background-color: #F5F2ED;
+}
+
+h1, h2, h3, p, nav{
+    font-family: "DM Sans", sans-serif;
+}
+
+.pr-txt{
+    color: #1E1C1A;
+}
+
+.sec-txt{
+    color: #6B6560;
+}
+
+a:hover{
+    color: #B85C38;
+}
