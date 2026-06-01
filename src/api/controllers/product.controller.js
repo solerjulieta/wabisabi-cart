@@ -1,5 +1,6 @@
 import { parse } from 'dotenv'
 import Product from '../../models/product.model.js'
+import { productManager } from '../../dao/factory.js'
 
 export const getProducts = async (req, res) => 
 {
@@ -30,7 +31,7 @@ export const getProducts = async (req, res) =>
         const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
 
         //Paginación
-        const result = await Product.paginate(filter, {
+        const result = await productManager.getAll(filter, {
             limit: parsedLimit,
             page: parsedPage,
             sort: sortOption
@@ -61,7 +62,7 @@ export const createProduct = async (req, res) =>
 {
     try{
         const product = req.body
-        const newProduct = await Product.create(product)
+        const newProduct = await productManager.create(product)
 
         res.status(201).json({ status: 'success', payload: newProduct })
     } catch (error) {
@@ -74,7 +75,7 @@ export const getProductById = async (req, res) =>
     try{
         const { id } = req.params
 
-        const product = await Product.findById(id)
+        const product = await productManager.getById(id)
 
         if(!product){
             return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
@@ -92,11 +93,7 @@ export const updateProduct = async (req, res) =>
         const { id } = req.params
         delete req.body._id
 
-        const updatedProduct = await Product.findByIdAndUpdate(
-            id,
-            req.body,
-            { new: true }
-        )
+        const updatedProduct = await productManager.update(id, req.body)
 
         if(!updatedProduct){
             return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
@@ -112,7 +109,7 @@ export const deleteProduct = async (req, res) =>
 {
     try{
         const { id } = req.params 
-        const deletedProduct = await Product.findByIdAndDelete(id)
+        const deletedProduct = await Product.delete(id)
 
         if(!deletedProduct){
             return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
