@@ -38,7 +38,7 @@ export const getProducts = async (req, res) =>
 
         //Links de prev y next
         const baseUrl = '/api/products'
-        const buildLink = (p) => `${baseUrl}?page="${p}&limit=${parsedLimit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
+        const buildLink = (p) => `${baseUrl}?page=${p}&limit=${parsedLimit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
         
         res.json({ 
             status: 'success',
