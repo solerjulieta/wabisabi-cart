@@ -1,0 +1,14 @@
+<div>
+    {{#if this.thumbnails.length}}
+        <img src={{this.thumbnails.[0]}} alt="">
+    {{else}}
+        <div>Sin imagen</div>
+    {{/if}}
+
+    <div class="product-card-info">
+        <h3>{{this.title}}</h3>
+        <p class="product-category">{{this.category}}</p>
+        <p class="product-price">${{this.price}}</p>
+        <a href="/products/{{this._id}}" class="btn-detalle">Ver detalle</a>
+    </div>
+</div>

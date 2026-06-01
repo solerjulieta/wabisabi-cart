@@ -8,6 +8,7 @@ import connectDB from './config/db.js'
 import router from './api/routes/routes.index.js'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import viewRoutes from './api/routes/views.routes.js'
 
 dotenv.config()
 
@@ -36,11 +37,10 @@ app.engine('handlebars', handlebars.engine({
 app.set('view engine', 'handlebars')
 app.set('views', join(__dirname, 'views'))
 
+app.use('/', viewRoutes)
 app.use('/api', router)
 
-app.get('/', (req, res) => {
-  res.render('home')
-})
+app.get('/', (req, res) => res.render('home'))
 
 const port = process.env.PORT
 

@@ -1,0 +1,55 @@
+import { productManager } from '../../dao/factory.js'
+
+export const renderProducts = async (req, res) => {
+    try {
+        const { limit = 10, page = 1, query, sort } = req.query
+
+        const filter = {}
+        if(query){
+            if(query === 'true' || query === 'false'){
+                filter.status = query === 'true'
+            } else {
+                filter.category = { $regex: query, $options: 'i' }
+            }
+        }
+
+        const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
+
+        const result = await productManager.getAll(filter, {
+            limit: parseInt(limit),
+            page: parseInt(page),
+            sort: sortOption,
+            lean: true
+        })
+
+        const baseUrl = '/products'
+        const buildLink = (p) => `${baseUrl}?page=${p}&limit=${limit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
+
+        res.render('products', {
+            products:    result.docs,
+            totalPages:  result.totalPages,
+            page:        result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink:    result.hasPrevPage ? buildLink(result.prevPage) : null,
+            nextLink:    result.hasNextPage ? buildLink(result.nextPage) : null,
+            query:       query || '',
+            sort:        sort || ''
+        })
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+export const renderProductDetail = async (req, res) => 
+{
+    try {
+        const product = await productManager.getById(req.params.pid)
+
+        if(!product) return res.status(404).render('404')
+
+        res.render('product-detail', { product: product.toObject() })
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
