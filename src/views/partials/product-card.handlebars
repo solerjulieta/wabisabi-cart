@@ -1,14 +1,13 @@
-<div>
+<div class="p-2 border border-[#B85C38]/50 hover:border-[#B85C38] hover:shadow-md md:max-w-[250px]">
     {{#if this.thumbnails.length}}
         <img src={{this.thumbnails.[0]}} alt="">
     {{else}}
         <div>Sin imagen</div>
     {{/if}}
 
-    <div class="product-card-info">
-        <h3>{{this.title}}</h3>
+    <div class="product-card-info p-2">
+        <h3 class="font-bold">{{this.title}}</h3>
         <p class="product-category">{{this.category}}</p>
-        <p class="product-price">${{this.price}}</p>
-        <a href="/products/{{this._id}}" class="btn-detalle">Ver detalle</a>
+        <p class="product-price font-bold">${{this.price}}</p>
     </div>
 </div>

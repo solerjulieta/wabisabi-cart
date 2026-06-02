@@ -3,8 +3,12 @@ body{
     background-color: #EAE7E1;
 }
 
-h1, h2, h3, p, nav, span{
+p, nav, span{
     font-family: "DM Sans", sans-serif;
+}
+
+h1, h2, h3{
+    font-family: 'Shippori Mincho', sans-serif;
 }
 
 .pr-txt{
