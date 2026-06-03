@@ -1,15 +1,25 @@
-<aside class="flex flex-row overflow-x-auto gap-2 pb-2 md:flex-col md:overflow-x-visible md:min-w-[160px] md:gap-1 md:pb-0">
-    <p class="font-bold mb-2">Filtros</p>
-    <p class="hidden md:block text-xs uppercase tracking-wides mb-2">Categorías</p>
-    <a 
-        href="/products"
-        class="whitespace-nowrap flex-shrink-0 px-4 py-2 rounded-full text-sm transition-colors md:rounded-lf md:w-full md:text-left"
-    >Todos</a>
-    <a 
-    href="/products?query=Cerámica"
-    >
-    Cerámica
-    </a>
-    <a href="/products?query=Ropa">Ropa</a>
-    <a href="/products?query=Accesorios">Accesorios</a>
-</aside>
+<form method="GET" action="/products" class="md:min-w-[160px]">
+    <p class="hidden md:block text-xs uppercase tracking-widest text-gray-400 mb-3">Categorías</p>
+    {{#if
+    sort}}
+    <input type="hidden" name="sort" value="{{sort}}">
+    {{/if}}
+    <div class="flex flex-row overflow-x-auto gap-2 pb-2 md:flex-col md:overflow-x-visible md:gap-2 md:pb-0">
+        <label class="flex items-center gap-2 cursor-pointer whitespace-nowrap flex-shrink-0">
+            <input type="radio" name="query" value="" {{#unless query}}checked{{/unless}} onchange="this.form.submit()" class="accent-black">
+            <span class="text-sm text-gray-700">Todos</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer whitespace-nowrap flex-shrink-0">
+            <input type="radio" name="query" value="Cerámica" {{#if (eq query 'Cerámica')}}checked{{/if}} onchange="this.form.submit()" class="accent-black">
+            <span class="text-sm text-gray-700">Cerámica</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer whitespace-nowrap flex-shrink-0">
+            <input type="radio" name="query" value="Ropa" {{#if (eq query 'Ropa')}}checked{{/if}} onchange="this.form.submit()" class="accent-black">
+            <span class="text-sm text-gray-700">Ropa</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer whitespace-nowrap flex-shrink-0">
+            <input type="radio" name="query" value="Accesorios" {{#if (eq query 'Accesorios')}}checked{{/if}} onchange="this.form.submit()" class="accent-black">
+            <span class="text-sm text-gray-700">Accesorios</span>
+        </label>
+    </div>
+</form>

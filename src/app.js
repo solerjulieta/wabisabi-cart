@@ -32,7 +32,10 @@ app.use(express.static(join(__dirname, '..', 'public')))
 app.engine('handlebars', handlebars.engine({
     layoutsDir: join(__dirname, 'views/layouts'),
     partialsDir: join(__dirname, 'views/partials'),
-    defaultLayout: 'main'
+    defaultLayout: 'main',
+    helpers: {
+        eq: (a, b) => a === b
+    }
 }))
 app.set('view engine', 'handlebars')
 app.set('views', join(__dirname, 'views'))

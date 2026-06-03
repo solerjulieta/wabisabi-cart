@@ -1,0 +1,10 @@
+<form action="/products" method="get" class="flex items-center gap-2">
+{{#if query}}
+    <input type="hidden" name="query" value="{{query}}">
+{{/if}}
+<label class="text-sm text-gray-500">Ordenar por:</label>
+<select name="sort" onchange="this.form.submit()" class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-black">
+    <option value="asc" {{#if (eq sort 'asc')}}selected{{/if}}>Precio: menor a mayor</option>
+    <option value="desc" {{#if (eq sort 'desc')}}selected{{/if}}>Precio: mayor a menor</option>
+</select>
+</form>
