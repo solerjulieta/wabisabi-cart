@@ -47,6 +47,8 @@ app.get('/', (req, res) => res.render('home'))
 
 const port = process.env.PORT
 
+export { io }
+
 server.listen(port, () => {
     console.log(`Servidor iniciado http://localhost:${port}`)
 })

@@ -1,19 +1,9 @@
 import { productManager } from '../../dao/factory.js'
+import { buildProductQuery } from '../../dao/helpers/productQuery.helper.js'
 
 export const renderProducts = async (req, res) => {
     try {
-        const { limit = 10, page = 1, query, sort } = req.query
-
-        const filter = {}
-        if(query){
-            if(query === 'true' || query === 'false'){
-                filter.status = query === 'true'
-            } else {
-                filter.category = { $regex: query, $options: 'i' }
-            }
-        }
-
-        const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
+        const { parsedLimit, parsedPage, filter, sortOption, query, sort } = buildProductQuery(req.query)
 
         const result = await productManager.getAll(filter, {
             limit: parseInt(limit),

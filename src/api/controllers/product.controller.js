@@ -1,34 +1,20 @@
 import { parse } from 'dotenv'
 import Product from '../../models/product.model.js'
 import { productManager } from '../../dao/factory.js'
+import { buildProductQuery } from '../../dao/helpers/productQuery.helper.js'
+import { io } from '../../app.js'
 
 export const getProducts = async (req, res) => 
 {
     try{
-        const { limit = 10, page = 1, query, sort } = req.query //capturamos el límite
-
-        //Validamos limit y page
-        const parsedLimit = parseInt(limit)
-        const parsedPage = parseInt(page)
-
+        const { parsedLimit, parsedPage, filter, sortOption, query, sort } = buildProductQuery(req.query)
+        
         if(isNaN(parsedLimit) || parsedLimit <= 0){
             return res.status(400).json({ status: 'error', message: 'limit debe ser un número mayor a 0.' })
         }
         if(isNaN(parsedPage) || parsedPage <= 0){
             return res.status(400).json({ status: 'error', message: 'page debe ser un número mayor a 0.' })
         }
-
-        const filter = {}
-        if(query){
-            if(query === 'true' || query === 'false'){
-                filter.status = query === 'true'
-            } else {
-                filter.category = { $regex: query, $options: 'i' }
-            }
-        }
-
-        //Ordena por precio
-        const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
 
         //Paginación
         const result = await productManager.getAll(filter, {
@@ -63,7 +49,7 @@ export const createProduct = async (req, res) =>
     try{
         const product = req.body
         const newProduct = await productManager.create(product)
-
+        io.emit('productUpdated')
         res.status(201).json({ status: 'success', payload: newProduct })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
@@ -99,6 +85,7 @@ export const updateProduct = async (req, res) =>
             return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
         } 
 
+        io.emit('productUpdated')
         res.status(200).json({ status: 'success', payload: updatedProduct })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
@@ -115,6 +102,7 @@ export const deleteProduct = async (req, res) =>
             return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
         }
 
+        io.emit('productUpdated')
         res.status(200).json({ status: 'success', message: `Producto "${deletedProduct.title}" eliminado correctamente.` })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
