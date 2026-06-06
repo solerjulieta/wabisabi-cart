@@ -16,5 +16,5 @@ export const buildProductQuery = (reqQuery) =>
 
     const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
 
-    return { parsedLimit, parsedPage, filter, sortOption, query, sort }
+    return { parsedLimit, parsedPage, filter, sortOption, query, sort, limit, page }
 }

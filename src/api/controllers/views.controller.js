@@ -6,8 +6,8 @@ export const renderProducts = async (req, res) => {
         const { parsedLimit, parsedPage, filter, sortOption, query, sort } = buildProductQuery(req.query)
 
         const result = await productManager.getAll(filter, {
-            limit: parseInt(limit),
-            page: parseInt(page),
+            limit: parsedLimit,
+            page: parsedPage,
             sort: sortOption,
             lean: true
         })
