@@ -13,7 +13,7 @@ export const renderProducts = async (req, res) => {
         })
 
         const baseUrl = '/products'
-        const buildLink = (p) => `${baseUrl}?page=${p}&limit=${limit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
+        const buildLink = (p) => `${baseUrl}?page=${p}&limit=${parsedLimit}${query ? `&query=${query}` : ''}${sort ? `&sort=${sort}` : ''}`
 
         res.render('products', {
             products:    result.docs,

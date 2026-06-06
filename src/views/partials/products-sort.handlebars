@@ -1,10 +1,63 @@
-<form action="/products" method="get" class="flex items-center gap-2">
-{{#if query}}
-    <input type="hidden" name="query" value="{{query}}">
-{{/if}}
-<label class="text-sm text-gray-500">Ordenar por:</label>
-<select name="sort" onchange="this.form.submit()" class="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-black">
-    <option value="asc" {{#if (eq sort 'asc')}}selected{{/if}}>Precio: menor a mayor</option>
-    <option value="desc" {{#if (eq sort 'desc')}}selected{{/if}}>Precio: mayor a menor</option>
-</select>
+<form action="/products" method="get" id="sort-form">
+    {{#if query}}
+        <input type="hidden" name="query" value="{{query}}">
+    {{/if}}
+    <input type="hidden" name="sort" id="sort-value" value="{{sort}}">
+
+    <div class="flex items-center gap-3">
+        <label class="text-xs tracking-widest text-[#B4AFA8] uppercase">ordenar por:</label>
+
+        <div class="relative" id="sort-dropdown">
+            <button 
+                type="button"
+                onclick="toggleSort()"
+                class="flex items-center gap-6 text-xs tracking-wider border border-[#D4CFC8] px-3 py-2 bg-[#F5F2ED] text-[#6B6560] hover:border-[#B4AFA8] transition-colors cursor-pointer"
+            >
+                <span id="sort-label">
+                    {{#if (eq sort 'desc')}}precio: mayor a menor{{else}}precio: menor a mayor{{/if}}
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#B4AFA8" stroke-width="1.5">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+
+            <div 
+                id="sort-options"
+                class="hidden absolute top-full left-0 mt-[1px] w-full border border-[#D4CFC8] bg-[#F5F2ED] z-10"
+            >
+                <div 
+                    onclick="selectSort('asc', 'precio: menor a mayor')"
+                    class="text-xs tracking-wider px-3 py-2 text-[#6B6560] hover:bg-[#EAE7E1] hover:text-[#1E1C1A] cursor-pointer transition-colors"
+                >
+                    precio: menor a mayor
+                </div>
+                <div 
+                    onclick="selectSort('desc', 'precio: mayor a menor')"
+                    class="text-xs tracking-wider px-3 py-2 text-[#6B6560] hover:bg-[#EAE7E1] hover:text-[#1E1C1A] cursor-pointer transition-colors border-t border-[#D4CFC8]"
+                >
+                    precio: mayor a menor
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+
+<script>
+    function toggleSort() {
+        document.getElementById('sort-options').classList.toggle('hidden')
+    }
+
+    function selectSort(value, label) {
+        document.getElementById('sort-value').value = value
+        document.getElementById('sort-label').textContent = label
+        document.getElementById('sort-options').classList.add('hidden')
+        document.getElementById('sort-form').submit()
+    }
+
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('sort-dropdown')
+        if (!dropdown.contains(e.target)) {
+            document.getElementById('sort-options').classList.add('hidden')
+        }
+    })
+</script>

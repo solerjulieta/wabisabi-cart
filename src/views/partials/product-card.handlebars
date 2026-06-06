@@ -1,13 +1,23 @@
-<div class="p-2 border border-[#B85C38]/50 hover:border-[#B85C38] hover:shadow-md md:max-w-[250px]">
+<div class="group rounded-sm overflow-hidden border border-[#D4CFC8] hover:border-[#B4AFA8] hover:shadow-md transition-shadow bg-[#F5F2ED]">
     {{#if this.thumbnails.length}}
-        <img src={{this.thumbnails.[0]}} alt="">
+        <img 
+            src={{this.thumbnails.[0]}} 
+            alt="{{this.title}}"
+            class="w-full aspect-square object-cover group-hover:scale-103 transition-transform duration-300"
+        >
     {{else}}
-        <div>Sin imagen</div>
+        <div class="w-full aspect-square bg-[#DDD8CF] flex items-center justify-center text-[#B4AFA8] text-sm tracking-wide">Sin imagen</div>
     {{/if}}
 
-    <div class="product-card-info p-2">
-        <h3 class="font-bold">{{this.title}}</h3>
-        <p class="product-category">{{this.category}}</p>
-        <p class="product-price font-bold">${{this.price}}</p>
+    <div class="p-4">
+        <p class="text-xs text-[#B4AFA8] uppercase tracking-wider mb-1">{{this.category}}</p>
+        <h3 class="font-normal text-[#1E1C1A] mb-2">{{this.title}}</h3>
+        <p class="font-semibold text-[#1E1C1A] mb-4">${{this.price}}</p>
+        <a 
+            href="/products/{{this._id}}"
+            class="block text-center text-xs tracking-widest px-4 py-2 border border-[#1E1C1A] text-[#1E1C1A] hover:bg-[#1E1C1A] hover:text-[#F5F2ED] transition-colors duration-300"
+        >
+            Ver detalle
+        </a>
     </div>
 </div>

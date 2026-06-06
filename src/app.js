@@ -34,7 +34,8 @@ app.engine('handlebars', handlebars.engine({
     partialsDir: join(__dirname, 'views/partials'),
     defaultLayout: 'main',
     helpers: {
-        eq: (a, b) => a === b
+        eq: (a, b) => a === b,
+        gt: (a, b) => a > b
     }
 }))
 app.set('view engine', 'handlebars')
