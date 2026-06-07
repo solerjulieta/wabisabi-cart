@@ -4,6 +4,7 @@ import { renderHome, renderProducts, renderProductDetail, renderCart } from '../
 const router = Router()
 
 router.get('/', renderHome)
+router.get('/about', (req, res) => res.render('about'))
 router.get('/products', renderProducts)
 router.get('/products/:pid', renderProductDetail)
 router.get('/carts/:cid', renderCart)
