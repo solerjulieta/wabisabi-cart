@@ -65,3 +65,13 @@ export const renderCart = async (req, res) =>
         res.status(500).send(error.message)
     }
 }
+
+export const renderHome = async (req, res) => {
+    try {
+        const result = await productManager.getAll({}, { limit: 4, page: 1, lean: true })
+
+        res.render('home', { products: result.docs })
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}

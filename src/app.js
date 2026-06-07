@@ -45,8 +45,6 @@ app.set('views', join(__dirname, 'views'))
 app.use('/', viewRoutes)
 app.use('/api', router)
 
-app.get('/', (req, res) => res.render('home'))
-
 const port = process.env.PORT
 
 export { io }

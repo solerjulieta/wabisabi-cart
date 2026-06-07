@@ -1,4 +1,104 @@
-<section>
-    {{> announcement }}
-    <h1>Hola, bienvenido a mi tienda.</h1>
+<section class="w-full bg-[#E8E3DC] min-h-[80vh] flex items-center">
+  <div class="w-[92%] mx-auto flex flex-col md:flex-row items-center gap-12">
+
+    {{!-- Texto --}}
+    <div class="md:w-1/2 flex flex-col gap-6">
+      <p class="text-xs uppercase tracking-[0.3em] text-[#B4AFA8]">nueva colección</p>
+      <h1 class="text-4xl md:text-6xl text-[#1E1C1A] leading-tight" style="font-family:'Shippori Mincho',serif;font-weight:400">
+        La belleza<br>de lo imperfecto
+      </h1>
+      <p class="text-sm text-[#6B6560] leading-relaxed max-w-sm" style="font-weight:300">
+        Objetos hechos a mano que celebran la imperfección, la naturaleza y el paso del tiempo.
+      </p>
+      <a href="/products" class="inline-block self-start text-xs tracking-widest uppercase border border-[#1E1C1A] px-8 py-3 hover:bg-[#1E1C1A] hover:text-[#F5F2ED] transition-colors duration-300">
+        Ver colección
+      </a>
+    </div>
+
+    {{!-- Lado derecho — placeholder con color --}}
+    <div class="md:w-1/2 w-full aspect-square overflow-hidden">
+        <img 
+            src="/img/labelleza-wabisabi.png" 
+            alt="La belleza de lo imperfecto"
+            class="w-full h-full object-cover object-center"
+        >
+    </div>
+
+  </div>
+</section>
+
+{{!-- CATEGORÍAS --}}
+<section class="w-[92%] mx-auto py-16">
+  <p class="text-xs uppercase tracking-[0.3em] text-[#B4AFA8] mb-16 text-center">explorar por categoría</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <a 
+        href="/products?query=Cerámica" 
+        class="group relative overflow-hidden aspect-[3/4] bg-[#DDD8CF] flex items-end p-6"
+        style="background-image: url('/img/ceramica.png'); background-size: cover; background-position: center;"
+    >
+      <div class="absolute inset-0 bg-[#1E1C1A] opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+      <div class="relative z-10">
+        <p class="text-xs uppercase tracking-widest text-[#F5F2ED] opacity-70 mb-1">01</p>
+        <h2 class="text-xl text-[#F5F2ED]" style="font-family:'Shippori Mincho',serif">Cerámica</h2>
+        <p class="text-xs text-[#F5F2ED] opacity-60 tracking-wider mt-1 group-hover:opacity-100 transition-opacity">Ver colección →</p>
+      </div>
+    </a>
+
+    <a 
+        href="/products?query=Ropa" 
+        class="group relative overflow-hidden aspect-[3/4] bg-[#C8BFB0] flex items-end p-6"
+        style="background-image: url('/img/ropa.png'); background-size: cover; background-position: center;"
+    >
+      <div class="absolute inset-0 bg-[#1E1C1A] opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+      <div class="relative z-10">
+        <p class="text-xs uppercase tracking-widest text-[#F5F2ED] opacity-70 mb-1">02</p>
+        <h2 class="text-xl text-[#F5F2ED]" style="font-family:'Shippori Mincho',serif">Ropa</h2>
+        <p class="text-xs text-[#F5F2ED] opacity-60 tracking-wider mt-1 group-hover:opacity-100 transition-opacity">Ver colección →</p>
+      </div>
+    </a>
+
+    <a 
+        href="/products?query=Accesorios" 
+        class="group relative overflow-hidden aspect-[3/4] bg-[#B8AFA4] flex items-end p-6"
+        style="background-image: url('/img/accesorios.png'); background-size: cover; background-position: center;"
+    >
+      <div class="absolute inset-0 bg-[#1E1C1A] opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+      <div class="relative z-10">
+        <p class="text-xs uppercase tracking-widest text-[#F5F2ED] opacity-70 mb-1">03</p>
+        <h2 class="text-xl text-[#F5F2ED]" style="font-family:'Shippori Mincho',serif">Accesorios</h2>
+        <p class="text-xs text-[#F5F2ED] opacity-60 tracking-wider mt-1 group-hover:opacity-100 transition-opacity">Ver colección →</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+{{!-- DESTACADOS --}}
+<section class="w-[92%] mx-auto py-16 border-t border-[#D4CFC8]">
+  <div class="flex justify-between items-end mb-16">
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-[#B4AFA8] mb-2">selección</p>
+      <h2 class="text-2xl text-[#1E1C1A]" style="font-family:'Shippori Mincho',serif;font-weight:400">Destacados</h2>
+    </div>
+    <a href="/products" class="text-xs tracking-widest uppercase text-[#B4AFA8] hover:text-[#1E1C1A] transition-colors">
+      Ver todos →
+    </a>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {{#each products}}
+      {{> product-card}}
+    {{/each}}
+  </div>
+</section>
+
+{{!-- FRASE --}}
+<section class="w-full bg-[#1E1C1A] py-20 text-center">
+  <p class="text-xs uppercase tracking-[0.4em] text-[#B4AFA8] mb-4">filosofía</p>
+  <blockquote class="text-2xl md:text-3xl text-[#F5F2ED] max-w-2xl mx-auto px-8 leading-relaxed" style="font-family:'Shippori Mincho',serif;font-weight:300">
+    "Nada es perfecto, nada es permanente, nada está completo."
+  </blockquote>
+  <p class="text-xs text-[#6B6560] tracking-widest mt-6 uppercase">Wabi-sabi</p>
 </section>
