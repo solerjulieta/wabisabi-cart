@@ -11,9 +11,9 @@ import { validateProduct } from '../../middlewares/product.middleware.js'
 const router = Router()
 
 router.get('/', getProducts)
-router.get('/:id', validateProduct, getProductById)
+router.get('/:pid', validateProduct, getProductById)
 router.post('/', createProduct)
-router.put('/:id', validateProduct, updateProduct)
-router.delete('/:id', validateProduct, deleteProduct)
+router.put('/:pid', validateProduct, updateProduct)
+router.delete('/:pid', validateProduct, deleteProduct)
 
 export default router

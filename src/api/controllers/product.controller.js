@@ -69,10 +69,10 @@ export const getProductById = async (req, res) =>
 export const updateProduct = async (req, res) => 
 {
     try{
-        const { id } = req.params
+        const { pid } = req.params
         delete req.body._id
 
-        const updatedProduct = await productManager.update(id, req.body)
+        const updatedProduct = await productManager.update(pid, req.body)
 
         io.emit('productUpdated')
         res.status(200).json({ status: 'success', payload: updatedProduct })
@@ -84,8 +84,8 @@ export const updateProduct = async (req, res) =>
 export const deleteProduct = async (req, res) => 
 {
     try{
-        const { id } = req.params 
-        const deletedProduct = await productManager.delete(id)
+        const { pid } = req.params 
+        const deletedProduct = await productManager.delete(pid)
 
         io.emit('productUpdated')
         res.status(200).json({ status: 'success', message: `Producto "${deletedProduct.title}" eliminado correctamente.` })

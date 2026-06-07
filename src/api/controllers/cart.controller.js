@@ -14,9 +14,9 @@ export const createCart = async (req, res) =>
 export const getCartById = async (req, res) => 
 {
     try {
-        const { id } = req.params
+        const { cid } = req.params
 
-        const cart = await Cart.findById(id).populate('products.product')
+        const cart = await cartManager.getById(cid)
 
         if(!cart){
             return res.status(404).json({ status: 'error', message: 'No existe un carrito con ese ID.' })
