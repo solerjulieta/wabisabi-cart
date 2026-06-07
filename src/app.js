@@ -35,7 +35,8 @@ app.engine('handlebars', handlebars.engine({
     defaultLayout: 'main',
     helpers: {
         eq: (a, b) => a === b,
-        gt: (a, b) => a > b
+        gt: (a, b) => a > b,
+        multiply: (a, b) => a * b
     }
 }))
 app.set('view engine', 'handlebars')

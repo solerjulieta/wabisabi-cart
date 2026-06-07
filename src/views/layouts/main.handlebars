@@ -21,3 +21,21 @@
     {{> footer}}
 </body>
 </html>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  // Al cargar cualquier página, nos aseguramos que el usuario tenga un carrito
+  (async () => {
+    let cartId = localStorage.getItem('cartId')
+
+    if (!cartId) {
+      const response = await fetch('/api/carts', { method: 'POST' })
+      const data = await response.json()
+      cartId = data.payload._id
+      localStorage.setItem('cartId', cartId)
+    }
+
+    // Actualizamos el link del carrito con el id real
+    document.getElementById('cart-link').href = `/carts/${cartId}`
+  })()
+</script>
