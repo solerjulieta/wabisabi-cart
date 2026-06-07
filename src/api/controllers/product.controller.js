@@ -59,14 +59,7 @@ export const createProduct = async (req, res) =>
 export const getProductById = async (req, res) => 
 {
     try{
-        const { id } = req.params
-
-        const product = await productManager.getById(id)
-
-        if(!product){
-            return res.status(400).json({ status: 'error', message: 'No existe un producto con ese ID.' })
-        }
-
+        const product = req.product
         res.status(200).json({ status: 'success', payload: product })
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message })
@@ -81,10 +74,6 @@ export const updateProduct = async (req, res) =>
 
         const updatedProduct = await productManager.update(id, req.body)
 
-        if(!updatedProduct){
-            return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
-        } 
-
         io.emit('productUpdated')
         res.status(200).json({ status: 'success', payload: updatedProduct })
     } catch (error) {
@@ -97,10 +86,6 @@ export const deleteProduct = async (req, res) =>
     try{
         const { id } = req.params 
         const deletedProduct = await productManager.delete(id)
-
-        if(!deletedProduct){
-            return res.status(404).json({ status: 'error', message: 'No existe un producto con ese ID.' })
-        }
 
         io.emit('productUpdated')
         res.status(200).json({ status: 'success', message: `Producto "${deletedProduct.title}" eliminado correctamente.` })
