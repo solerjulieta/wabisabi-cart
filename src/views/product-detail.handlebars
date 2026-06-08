@@ -10,7 +10,7 @@
       {{#if product.thumbnails.length}}
 
         {{!-- Imagen principal --}}
-        <div class="relative overflow-hidden bg-[#DDD8CF]">
+        <div class="relative overflow-hidden bg-[#DDD8CF]" id="image-container">
           <img
             src="{{product.thumbnails.[0]}}"
             alt="{{product.title}}"
@@ -24,7 +24,7 @@
           <div class="flex md:hidden justify-center gap-2 mt-3">
             {{#each product.thumbnails}}
               <button
-                onclick="setImage('{{this}}', this)"
+                onclick="setImageByIndex('{{@index}}', this)"
                 class="w-1.5 h-1.5 rounded-full bg-[#D4CFC8] transition-colors dot-indicator {{#if @first}}bg-[#1E1C1A]{{/if}}"
                 aria-label="imagen {{@index}}"
               ></button>
@@ -96,25 +96,58 @@
 </section>
 
 <script>
-  function setImage(src, trigger) {
-    document.getElementById('main-image').src = src;
+  const thumbnails = {{{json product.thumbnails}}};
+  let currentIndex = 0;
 
-    document.querySelectorAll('.thumbnail-btn').forEach(btn => {
-      btn.classList.remove('border-[#1E1C1A]');
-      btn.classList.add('border-[#D4CFC8]');
+  function updateDots(index) {
+    document.querySelectorAll('.dot-indicator').forEach((dot, i) => {
+      dot.classList.toggle('bg-[#1E1C1A]', i === index);
+      dot.classList.toggle('bg-[#D4CFC8]', i !== index);
     });
+  }
 
-    document.querySelectorAll('.dot-indicator').forEach(dot => {
-      dot.classList.remove('bg-[#1E1C1A]');
-      dot.classList.add('bg-[#D4CFC8]');
+  function updateThumbnails(index) {
+    document.querySelectorAll('.thumbnail-btn').forEach((btn, i) => {
+      btn.classList.toggle('border-[#1E1C1A]', i === index);
+      btn.classList.toggle('border-[#D4CFC8]', i !== index);
     });
+  }
 
-    if (trigger) {
-      trigger.classList.remove('border-[#D4CFC8]');
-      trigger.classList.add('border-[#1E1C1A]');
-      trigger.classList.remove('bg-[#D4CFC8]');
-      trigger.classList.add('bg-[#1E1C1A]');
+  function setImageByIndex(index, trigger) {
+    currentIndex = index;
+    document.getElementById('main-image').src = thumbnails[index];
+    updateDots(index);
+    updateThumbnails(index);
+  }
+
+  // Swipe táctil
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const container = document.getElementById('image-container');
+
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) < 50) return; // ignorar swipes muy cortos
+
+    if (diff > 0) {
+      // swipe izquierda → siguiente
+      currentIndex = (currentIndex + 1) % thumbnails.length;
+    } else {
+      // swipe derecha → anterior
+      currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
     }
+
+    setImageByIndex(currentIndex);
   }
 </script>
 
