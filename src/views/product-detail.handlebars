@@ -1,3 +1,8 @@
+<style>
+  #main-image {
+    transition: opacity 0.3s ease;
+  }
+</style>
 <section class="w-[92%] mx-auto py-8">
   <a href="/products" class="text-xs tracking-widest text-[#B4AFA8] hover:text-[#B85C38] transition-colors uppercase">
     ← volver a productos
@@ -113,11 +118,18 @@
     });
   }
 
-  function setImageByIndex(index, trigger) {
-    currentIndex = index;
-    document.getElementById('main-image').src = thumbnails[index];
-    updateDots(index);
-    updateThumbnails(index);
+  function setImageByIndex(index) {
+    const img = document.getElementById('main-image');
+
+    img.style.opacity = '0';
+
+    setTimeout(() => {
+      currentIndex = index;
+      img.src = thumbnails[index];
+      img.style.opacity = '1';
+      updateDots(index);
+      updateThumbnails(index);
+    }, 300);
   }
 
   // Swipe táctil
