@@ -36,7 +36,8 @@ app.engine('handlebars', handlebars.engine({
     helpers: {
         eq: (a, b) => a === b,
         gt: (a, b) => a > b,
-        multiply: (a, b) => a * b
+        multiply: (a, b) => a * b,
+        json: (context) => JSON.stringify(context)
     }
 }))
 app.set('view engine', 'handlebars')
